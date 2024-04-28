@@ -5,7 +5,6 @@ import org.codingdojo.yatzy1.Yatzy1;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class Yatzy1Test {
@@ -19,12 +18,12 @@ class Yatzy1Test {
     }
 
     @Test
-    void yatzy_scores_50() {
+    void yatzyScores50() {
         int expected = 50;
-        int actual = Yatzy1.yatzy(4, 4, 4, 4, 4);
+        int actual = new Yatzy1(new Dices(4, 4, 4, 4, 4)).yatzy();
         assertEquals(expected, actual);
-        assertEquals(50, Yatzy1.yatzy(6, 6, 6, 6, 6));
-        assertEquals(0, Yatzy1.yatzy(6, 6, 6, 6, 3));
+        assertEquals(50, new Yatzy1(new Dices(6, 6, 6, 6, 6)).yatzy());
+        assertEquals(0, new Yatzy1(new Dices(6, 6, 6, 6, 3)).yatzy());
     }
 
     @Test
