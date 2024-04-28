@@ -1,118 +1,68 @@
 package org.codingdojo.yatzy1;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 public class Yatzy1 {
-    private final int[] dices;
+    private final Dices dices;
 
     public Yatzy1(Dices dices) {
-        this.dices = dices.getDicesArray();
+        this.dices = dices;
     }
 
     public int chance() {
-        //TODO refacto with OO view in Dices
-        return Arrays.stream(this.dices).sum();
+        return this.dices.sum();
     }
 
     public int yatzy() {
-        if (Arrays.stream(this.dices).distinct().count() == 1)
+        if (dices.areAllDicesIdentical())
             return 50;
         return 0;
     }
 
-    private int sumOfSpecificValue(int value){
-        return (int) (Arrays.stream(this.dices).filter(dice -> dice == value).count() * value);
-    }
-
     public int ones() {
-        return this.sumOfSpecificValue(1);
+        return this.dices.sumOfSpecificValue(1);
     }
 
     public int twos() {
-        return this.sumOfSpecificValue(2);
+        return this.dices.sumOfSpecificValue(2);
     }
 
     public int threes() {
-        return this.sumOfSpecificValue(3);
+        return this.dices.sumOfSpecificValue(3);
     }
 
     public int fours() {
-        return this.sumOfSpecificValue(4);
+        return this.dices.sumOfSpecificValue(4);
     }
 
     public int fives() {
-        return this.sumOfSpecificValue(5);
+        return this.dices.sumOfSpecificValue(5);
     }
 
     public int sixes() {
-        return this.sumOfSpecificValue(6);
-    }
-
-    private int scoreNumberOfPair(int numberOfPair){
-        Map<Integer, Long> counts = getCountOfEachDiceValue();
-        return getBestPairScores(counts)
-            .sorted(Comparator.reverseOrder())
-            .limit(numberOfPair)
-            .mapToInt(Integer::intValue).sum();
-    }
-
-    private static Stream<Integer> getBestPairScores(Map<Integer, Long> counts) {
-        return counts.entrySet().stream()
-            .filter(cardCount -> cardCount.getValue() >= 2)
-            .map(diceCount -> diceCount.getKey() * 2);
-    }
-
-    private Map<Integer, Long> getCountOfEachDiceValue() {
-        return Arrays.stream(this.dices)
-            .boxed()
-            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        return this.dices.sumOfSpecificValue(6);
     }
 
     public int scorePair() {
-        return scoreNumberOfPair(1);
+        return this.dices.scoreNumberOfPair(1);
     }
 
     public int twoPair() {
-        return this.scoreNumberOfPair(2);
-    }
-
-    private int numberOfAKind(int number){
-        Map<Integer, Long> counts = getCountOfEachDiceValue();
-        return counts.entrySet().stream()
-            .filter(cardCount -> cardCount.getValue() >= number)
-            .mapToInt(diceCount -> diceCount.getKey() * number)
-            .findFirst().orElse(0);
+        return this.dices.scoreNumberOfPair(2);
     }
 
     public int fourOfAKind() {
-        return this.numberOfAKind(4);
+        return this.dices.numberOfAKind(4);
     }
 
     public int threeOfAKind() {
-        return this.numberOfAKind(3);
-    }
-    
-    private int computeStraight(){
-        int[] sortedDices = Arrays.stream(this.dices).sorted().toArray();
-        for (int i = 0; i < 5; i++) {
-            if (sortedDices[i] != i + sortedDices[0]) {
-                return 0;
-            }
-        }
-        return Arrays.stream(this.dices).sum();
+        return this.dices.numberOfAKind(3);
     }
 
     public int smallStraight() {
-        return this.computeStraight();
+        return this.dices.computeStraight();
     }
 
     public int largeStraight() {
-        return this.computeStraight();
+        return this.dices.computeStraight();
     }
 
     public static int fullHouse(int d1, int d2, int d3, int d4, int d5) {

@@ -1,5 +1,12 @@
 package org.codingdojo.yatzy1;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class Dices {
     private final int[] diceArray = new int[5];
 
@@ -11,7 +18,53 @@ public class Dices {
         this.diceArray[4] = dice4;
     }
 
-    public int[] getDicesArray() {
-        return diceArray;
+    public int sum(){
+        return Arrays.stream(this.diceArray).sum();
+    }
+
+    protected boolean areAllDicesIdentical(){
+        return Arrays.stream(this.diceArray).distinct().count() == 1;
+    }
+
+    protected int sumOfSpecificValue(int value){
+        return (int) (Arrays.stream(this.diceArray).filter(dice -> dice == value).count() * value);
+    }
+
+    private Map<Integer, Long> getCountOfEachDiceValue() {
+        return Arrays.stream(this.diceArray)
+            .boxed()
+            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    }
+
+    protected int numberOfAKind(int number){
+        Map<Integer, Long> counts = getCountOfEachDiceValue();
+        return counts.entrySet().stream()
+            .filter(cardCount -> cardCount.getValue() >= number)
+            .mapToInt(diceCount -> diceCount.getKey() * number)
+            .findFirst().orElse(0);
+    }
+
+    protected int scoreNumberOfPair(int numberOfPair){
+        Map<Integer, Long> counts = getCountOfEachDiceValue();
+        return getBestPairScores(counts)
+            .sorted(Comparator.reverseOrder())
+            .limit(numberOfPair)
+            .mapToInt(Integer::intValue).sum();
+    }
+
+    private static Stream<Integer> getBestPairScores(Map<Integer, Long> counts) {
+        return counts.entrySet().stream()
+            .filter(cardCount -> cardCount.getValue() >= 2)
+            .map(diceCount -> diceCount.getKey() * 2);
+    }
+
+    protected int computeStraight(){
+        int[] sortedDices = Arrays.stream(this.diceArray).sorted().toArray();
+        for (int i = 0; i < 5; i++) {
+            if (sortedDices[i] != i + sortedDices[0]) {
+                return 0;
+            }
+        }
+        return this.sum();
     }
 }
