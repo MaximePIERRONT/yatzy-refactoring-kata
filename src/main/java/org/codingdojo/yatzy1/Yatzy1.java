@@ -1,16 +1,16 @@
 package org.codingdojo.yatzy1;
 
-public class Yatzy1 {
+import java.util.Arrays;
 
-    public static int chance(int d1, int d2, int d3, int d4, int d5)
-    {
-        int total = 0;
-        total += d1;
-        total += d2;
-        total += d3;
-        total += d4;
-        total += d5;
-        return total;
+public class Yatzy1 {
+    private final int[] dices;
+
+    public Yatzy1(Dices dices){
+        this.dices = dices.getDicesArray();
+    }
+
+    public int chance() {
+        return Arrays.stream(this.dices).sum();
     }
 
     public static int yatzy(int... dice)
@@ -57,23 +57,12 @@ public class Yatzy1 {
         return s;
     }
 
-    protected int[] dice;
-    public Yatzy1(int d1, int d2, int d3, int d4, int _5)
-    {
-        dice = new int[5];
-        dice[0] = d1;
-        dice[1] = d2;
-        dice[2] = d3;
-        dice[3] = d4;
-        dice[4] = _5;
-    }
-
     public int fours()
     {
         int sum;
         sum = 0;
         for (int at = 0; at != 5; at++) {
-            if (dice[at] == 4) {
+            if (this.dices[at] == 4) {
                 sum += 4;
             }
         }
@@ -84,8 +73,8 @@ public class Yatzy1 {
     {
         int s = 0;
         int i;
-        for (i = 0; i < dice.length; i++)
-            if (dice[i] == 5)
+        for (i = 0; i < this.dices.length; i++)
+            if (this.dices[i] == 5)
                 s = s + 5;
         return s;
     }
@@ -93,13 +82,13 @@ public class Yatzy1 {
     public int sixes()
     {
         int sum = 0;
-        for (int at = 0; at < dice.length; at++)
-            if (dice[at] == 6)
+        for (int dice : this.dices)
+            if (dice == 6)
                 sum = sum + 6;
         return sum;
     }
 
-    public static int score_pair(int d1, int d2, int d3, int d4, int d5)
+    public static int scorePair(int d1, int d2, int d3, int d4, int d5)
     {
         int[] counts = new int[6];
         counts[d1-1]++;
@@ -114,7 +103,7 @@ public class Yatzy1 {
         return 0;
     }
 
-    public static int two_pair(int d1, int d2, int d3, int d4, int d5)
+    public static int twoPair(int d1, int d2, int d3, int d4, int d5)
     {
         int[] counts = new int[6];
         counts[d1-1]++;
@@ -135,12 +124,12 @@ public class Yatzy1 {
             return 0;
     }
 
-    public static int four_of_a_kind(int _1, int _2, int d3, int d4, int d5)
+    public static int fourOfAKind(int d1, int d2, int d3, int d4, int d5)
     {
         int[] tallies;
         tallies = new int[6];
-        tallies[_1-1]++;
-        tallies[_2-1]++;
+        tallies[d1-1]++;
+        tallies[d2-1]++;
         tallies[d3-1]++;
         tallies[d4-1]++;
         tallies[d5-1]++;
@@ -150,7 +139,7 @@ public class Yatzy1 {
         return 0;
     }
 
-    public static int three_of_a_kind(int d1, int d2, int d3, int d4, int d5)
+    public static int threeOfAKind(int d1, int d2, int d3, int d4, int d5)
     {
         int[] t;
         t = new int[6];
@@ -204,14 +193,11 @@ public class Yatzy1 {
     public static int fullHouse(int d1, int d2, int d3, int d4, int d5)
     {
         int[] tallies;
-        boolean _2 = false;
+        boolean isTwoIdenticalCards = false;
         int i;
-        int _2_at = 0;
-        boolean _3 = false;
-        int _3_at = 0;
-
-
-
+        int at2 = 0;
+        boolean isThreeIdenticalCards = false;
+        int at3 = 0;
 
         tallies = new int[6];
         tallies[d1-1] += 1;
@@ -222,18 +208,18 @@ public class Yatzy1 {
 
         for (i = 0; i != 6; i += 1)
             if (tallies[i] == 2) {
-                _2 = true;
-                _2_at = i+1;
+                isTwoIdenticalCards = true;
+                at2 = i+1;
             }
 
         for (i = 0; i != 6; i += 1)
             if (tallies[i] == 3) {
-                _3 = true;
-                _3_at = i+1;
+                isThreeIdenticalCards = true;
+                at3 = i+1;
             }
 
-        if (_2 && _3)
-            return _2_at * 2 + _3_at * 3;
+        if (isTwoIdenticalCards && isThreeIdenticalCards)
+            return at2 * 2 + at3 * 3;
         else
             return 0;
     }
