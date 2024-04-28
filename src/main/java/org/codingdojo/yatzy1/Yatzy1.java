@@ -19,65 +19,32 @@ public class Yatzy1 {
         return 0;
     }
 
-    public static int ones(int d1, int d2, int d3, int d4, int d5) {
-        int sum = 0;
-        if (d1 == 1) sum++;
-        if (d2 == 1) sum++;
-        if (d3 == 1) sum++;
-        if (d4 == 1) sum++;
-        if (d5 == 1)
-            sum++;
-
-        return sum;
+    private int sumOfSpecificValue(int value){
+        return (int) (Arrays.stream(this.dices).filter(dice -> dice == value).count() * value);
     }
 
-    public static int twos(int d1, int d2, int d3, int d4, int d5) {
-        int sum = 0;
-        if (d1 == 2) sum += 2;
-        if (d2 == 2) sum += 2;
-        if (d3 == 2) sum += 2;
-        if (d4 == 2) sum += 2;
-        if (d5 == 2) sum += 2;
-        return sum;
+    public int ones() {
+        return this.sumOfSpecificValue(1);
     }
 
-    public static int threes(int d1, int d2, int d3, int d4, int d5) {
-        int s;
-        s = 0;
-        if (d1 == 3) s += 3;
-        if (d2 == 3) s += 3;
-        if (d3 == 3) s += 3;
-        if (d4 == 3) s += 3;
-        if (d5 == 3) s += 3;
-        return s;
+    public int twos() {
+        return this.sumOfSpecificValue(2);
+    }
+
+    public int threes() {
+        return this.sumOfSpecificValue(3);
     }
 
     public int fours() {
-        int sum;
-        sum = 0;
-        for (int at = 0; at != 5; at++) {
-            if (this.dices[at] == 4) {
-                sum += 4;
-            }
-        }
-        return sum;
+        return this.sumOfSpecificValue(4);
     }
 
     public int fives() {
-        int s = 0;
-        int i;
-        for (i = 0; i < this.dices.length; i++)
-            if (this.dices[i] == 5)
-                s = s + 5;
-        return s;
+        return this.sumOfSpecificValue(5);
     }
 
     public int sixes() {
-        int sum = 0;
-        for (int dice : this.dices)
-            if (dice == 6)
-                sum = sum + 6;
-        return sum;
+        return this.sumOfSpecificValue(6);
     }
 
     public static int scorePair(int d1, int d2, int d3, int d4, int d5) {

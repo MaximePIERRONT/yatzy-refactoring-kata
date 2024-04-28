@@ -27,41 +27,41 @@ class Yatzy1Test {
     }
 
     @Test
-    void test_1s() {
-        assertEquals(1, Yatzy1.ones(1, 2, 3, 4, 5));
-        assertEquals(2, Yatzy1.ones(1, 2, 1, 4, 5));
-        assertEquals(0, Yatzy1.ones(6, 2, 2, 4, 5));
-        assertEquals(4, Yatzy1.ones(1, 2, 1, 1, 1));
+    void testOnes() {
+        assertEquals(1, new Yatzy1(new Dices(1, 2, 3, 4, 5)).ones());
+        assertEquals(2, new Yatzy1(new Dices(1, 2, 1, 4, 5)).ones());
+        assertEquals(0, new Yatzy1(new Dices(6, 2, 2, 4, 5)).ones());
+        assertEquals(4, new Yatzy1(new Dices(1, 2, 1, 1, 1)).ones());
     }
 
     @Test
-    void test_2s() {
-        assertEquals(4, Yatzy1.twos(1, 2, 3, 2, 6));
-        assertEquals(10, Yatzy1.twos(2, 2, 2, 2, 2));
+    void testTwos() {
+        assertEquals(4, new Yatzy1(new Dices(1, 2, 3, 2, 6)).twos());
+        assertEquals(10,new Yatzy1(new Dices(2, 2, 2, 2, 2)).twos());
     }
 
     @Test
-    void test_threes() {
-        assertEquals(6, Yatzy1.threes(1, 2, 3, 2, 3));
-        assertEquals(12, Yatzy1.threes(2, 3, 3, 3, 3));
+    void testThrees() {
+        assertEquals(6, new Yatzy1(new Dices(1, 2, 3, 2, 3)).threes());
+        assertEquals(12, new Yatzy1(new Dices(2, 3, 3, 3, 3)).threes());
     }
 
     @Test
-    void fours_test() {
+    void testFours() {
         assertEquals(12, new Yatzy1(new Dices(4, 4, 4, 5, 5)).fours());
         assertEquals(8, new Yatzy1(new Dices(4, 4, 5, 5, 5)).fours());
         assertEquals(4, new Yatzy1(new Dices(4, 5, 5, 5, 5)).fours());
     }
 
     @Test
-    void fives() {
+    void testFives() {
         assertEquals(10, new Yatzy1(new Dices(4, 4, 4, 5, 5)).fives());
         assertEquals(15, new Yatzy1(new Dices(4, 4, 5, 5, 5)).fives());
         assertEquals(20, new Yatzy1(new Dices(4, 5, 5, 5, 5)).fives());
     }
 
     @Test
-    void sixes_test() {
+    void testSixes() {
         assertEquals(0, new Yatzy1(new Dices(4, 4, 4, 5, 5)).sixes());
         assertEquals(6, new Yatzy1(new Dices(4, 4, 6, 5, 5)).sixes());
         assertEquals(18, new Yatzy1(new Dices(6, 5, 6, 6, 5)).sixes());
