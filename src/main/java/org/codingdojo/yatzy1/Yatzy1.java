@@ -65,37 +65,8 @@ public class Yatzy1 {
         return this.dices.computeStraight();
     }
 
-    public static int fullHouse(int d1, int d2, int d3, int d4, int d5) {
-        int[] tallies;
-        boolean isTwoIdenticalCards = false;
-        int i;
-        int at2 = 0;
-        boolean isThreeIdenticalCards = false;
-        int at3 = 0;
-
-        tallies = new int[6];
-        tallies[d1 - 1] += 1;
-        tallies[d2 - 1] += 1;
-        tallies[d3 - 1] += 1;
-        tallies[d4 - 1] += 1;
-        tallies[d5 - 1] += 1;
-
-        for (i = 0; i != 6; i += 1)
-            if (tallies[i] == 2) {
-                isTwoIdenticalCards = true;
-                at2 = i + 1;
-            }
-
-        for (i = 0; i != 6; i += 1)
-            if (tallies[i] == 3) {
-                isThreeIdenticalCards = true;
-                at3 = i + 1;
-            }
-
-        if (isTwoIdenticalCards && isThreeIdenticalCards)
-            return at2 * 2 + at3 * 3;
-        else
-            return 0;
+    public int fullHouse() {
+        return this.dices.computeFullHouse();
     }
 }
 

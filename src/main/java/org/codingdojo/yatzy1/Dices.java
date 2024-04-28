@@ -67,4 +67,12 @@ public class Dices {
         }
         return this.sum();
     }
+
+    public int computeFullHouse() {
+        Map<Integer, Long> counts = getCountOfEachDiceValue();
+        if (counts.containsValue(3L) && counts.containsValue(2L)){
+            return this.sum();
+        }
+        return 0;
+    }
 }
