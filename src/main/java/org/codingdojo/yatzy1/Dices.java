@@ -11,11 +11,22 @@ public class Dices {
     private final int[] diceArray = new int[5];
 
     public Dices(int dice0, int dice1, int dice2, int dice3, int dice4){
+        checkDiceValue(dice0);
+        checkDiceValue(dice1);
+        checkDiceValue(dice2);
+        checkDiceValue(dice3);
+        checkDiceValue(dice4);
         this.diceArray[0] = dice0;
         this.diceArray[1] = dice1;
         this.diceArray[2] = dice2;
         this.diceArray[3] = dice3;
         this.diceArray[4] = dice4;
+    }
+
+    private void checkDiceValue(int value) {
+        if (value < 1 || value > 6) {
+            throw new IllegalArgumentException("Dice value must be between 1 and 6, received: " + value);
+        }
     }
 
     public int sum(){
@@ -41,7 +52,7 @@ public class Dices {
         return counts.entrySet().stream()
             .filter(cardCount -> cardCount.getValue() >= number)
             .mapToInt(diceCount -> diceCount.getKey() * number)
-            .findFirst().orElse(0);
+            .max().orElse(0);
     }
 
     protected int scoreNumberOfPair(int numberOfPair){
