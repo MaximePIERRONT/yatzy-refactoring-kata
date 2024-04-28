@@ -1,7 +1,7 @@
 package org.codingdojo.yatzy1;
 
 public class Yatzy1 {
-    private final Dices dices;
+    private Dices dices;
 
     public Yatzy1(Dices dices) {
         this.dices = dices;
@@ -67,6 +67,10 @@ public class Yatzy1 {
 
     public int fullHouse() {
         return this.dices.computeFullHouse();
+    }
+
+    public void setDices(Dices dices) {
+        this.dices = dices;
     }
 }
 
