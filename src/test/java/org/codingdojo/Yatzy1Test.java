@@ -81,31 +81,31 @@ class Yatzy1Test {
     }
 
     @Test
-    void three_of_a_kind() {
-        assertEquals(9, Yatzy1.threeOfAKind(3, 3, 3, 4, 5));
-        assertEquals(15, Yatzy1.threeOfAKind(5, 3, 5, 4, 5));
-        assertEquals(9, Yatzy1.threeOfAKind(3, 3, 3, 3, 5));
+    void testThreeOfAKind() {
+        assertEquals(9,new Yatzy1(new Dices(3, 3, 3, 4, 5)).threeOfAKind());
+        assertEquals(15, new Yatzy1(new Dices(5, 3, 5, 4, 5)).threeOfAKind());
+        assertEquals(9, new Yatzy1(new Dices(3, 3, 3, 3, 5)).threeOfAKind());
     }
 
     @Test
-    void four_of_a_knd() {
-        assertEquals(12, Yatzy1.fourOfAKind(3, 3, 3, 3, 5));
-        assertEquals(20, Yatzy1.fourOfAKind(5, 5, 5, 4, 5));
-        assertEquals(9, Yatzy1.threeOfAKind(3, 3, 3, 3, 3));
+    void testFourOfAKind() {
+        assertEquals(12, new Yatzy1(new Dices(3, 3, 3, 3, 5)).fourOfAKind());
+        assertEquals(20, new Yatzy1(new Dices(5, 5, 5, 4, 5)).fourOfAKind());
+        assertEquals(12, new Yatzy1(new Dices(3, 3, 3, 3, 3)).fourOfAKind());
     }
 
     @Test
     void smallStraight() {
-        assertEquals(15, Yatzy1.smallStraight(1, 2, 3, 4, 5));
-        assertEquals(15, Yatzy1.smallStraight(2, 3, 4, 5, 1));
-        assertEquals(0, Yatzy1.smallStraight(1, 2, 2, 4, 5));
+        assertEquals(15, new Yatzy1(new Dices(1, 2, 3, 4, 5)).smallStraight());
+        assertEquals(15, new Yatzy1(new Dices(2, 3, 4, 5, 1)).smallStraight());
+        assertEquals(0, new Yatzy1(new Dices(1, 2, 2, 4, 5)).smallStraight());
     }
 
     @Test
     void largeStraight() {
-        assertEquals(20, Yatzy1.largeStraight(6, 2, 3, 4, 5));
-        assertEquals(20, Yatzy1.largeStraight(2, 3, 4, 5, 6));
-        assertEquals(0, Yatzy1.largeStraight(1, 2, 2, 4, 5));
+        assertEquals(20, new Yatzy1(new Dices(6, 2, 3, 4, 5)).largeStraight());
+        assertEquals(20, new Yatzy1(new Dices(2, 3, 4, 5, 6)).largeStraight());
+        assertEquals(0, new Yatzy1(new Dices(1, 2, 2, 4, 5)).largeStraight());
     }
 
     @Test

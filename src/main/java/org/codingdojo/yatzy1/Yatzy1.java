@@ -15,6 +15,7 @@ public class Yatzy1 {
     }
 
     public int chance() {
+        //TODO refacto with OO view in Dices
         return Arrays.stream(this.dices).sum();
     }
 
@@ -80,66 +81,38 @@ public class Yatzy1 {
         return this.scoreNumberOfPair(2);
     }
 
-    public static int fourOfAKind(int d1, int d2, int d3, int d4, int d5) {
-        int[] tallies;
-        tallies = new int[6];
-        tallies[d1 - 1]++;
-        tallies[d2 - 1]++;
-        tallies[d3 - 1]++;
-        tallies[d4 - 1]++;
-        tallies[d5 - 1]++;
-        for (int i = 0; i < 6; i++)
-            if (tallies[i] >= 4)
-                return (i + 1) * 4;
-        return 0;
+    private int numberOfAKind(int number){
+        Map<Integer, Long> counts = getCountOfEachDiceValue();
+        return counts.entrySet().stream()
+            .filter(cardCount -> cardCount.getValue() >= number)
+            .mapToInt(diceCount -> diceCount.getKey() * number)
+            .findFirst().orElse(0);
     }
 
-    public static int threeOfAKind(int d1, int d2, int d3, int d4, int d5) {
-        int[] t;
-        t = new int[6];
-        t[d1 - 1]++;
-        t[d2 - 1]++;
-        t[d3 - 1]++;
-        t[d4 - 1]++;
-        t[d5 - 1]++;
-        for (int i = 0; i < 6; i++)
-            if (t[i] >= 3)
-                return (i + 1) * 3;
-        return 0;
+    public int fourOfAKind() {
+        return this.numberOfAKind(4);
     }
 
-    public static int smallStraight(int d1, int d2, int d3, int d4, int d5) {
-        int[] tallies;
-        tallies = new int[6];
-        tallies[d1 - 1] += 1;
-        tallies[d2 - 1] += 1;
-        tallies[d3 - 1] += 1;
-        tallies[d4 - 1] += 1;
-        tallies[d5 - 1] += 1;
-        if (tallies[0] == 1 &&
-            tallies[1] == 1 &&
-            tallies[2] == 1 &&
-            tallies[3] == 1 &&
-            tallies[4] == 1)
-            return 15;
-        return 0;
+    public int threeOfAKind() {
+        return this.numberOfAKind(3);
+    }
+    
+    private int computeStraight(){
+        int[] sortedDices = Arrays.stream(this.dices).sorted().toArray();
+        for (int i = 0; i < 5; i++) {
+            if (sortedDices[i] != i + sortedDices[0]) {
+                return 0;
+            }
+        }
+        return Arrays.stream(this.dices).sum();
     }
 
-    public static int largeStraight(int d1, int d2, int d3, int d4, int d5) {
-        int[] tallies;
-        tallies = new int[6];
-        tallies[d1 - 1] += 1;
-        tallies[d2 - 1] += 1;
-        tallies[d3 - 1] += 1;
-        tallies[d4 - 1] += 1;
-        tallies[d5 - 1] += 1;
-        if (tallies[1] == 1 &&
-            tallies[2] == 1 &&
-            tallies[3] == 1 &&
-            tallies[4] == 1
-            && tallies[5] == 1)
-            return 20;
-        return 0;
+    public int smallStraight() {
+        return this.computeStraight();
+    }
+
+    public int largeStraight() {
+        return this.computeStraight();
     }
 
     public static int fullHouse(int d1, int d2, int d3, int d4, int d5) {
