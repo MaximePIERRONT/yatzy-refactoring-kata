@@ -4,152 +4,118 @@ import org.codingdojo.yatzy1.Dices;
 import org.codingdojo.yatzy1.Yatzy1;
 import org.junit.jupiter.api.Test;
 
+import java.util.function.Supplier;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class Yatzy1Test {
-    
-    Yatzy1 yatzy1 = new Yatzy1(new Dices(1,1,1,1,1));
+
+    Yatzy1 yatzy1 = new Yatzy1(new Dices(1, 1, 1, 1, 1));
+
+    private void testYatzyCombination(int expected, Supplier<Integer> supplier, int... diceValues) {
+        yatzy1.setDices(new Dices(diceValues[0], diceValues[1], diceValues[2], diceValues[3], diceValues[4]));
+        assertEquals(expected, supplier.get());
+    }
 
     @Test
     void testChances() {
-        yatzy1.setDices(new Dices(2, 3, 4, 5, 1));
-        assertEquals(15, yatzy1.chance());
-        yatzy1.setDices(new Dices(3, 3, 4, 5, 1));
-        assertEquals(16, yatzy1.chance());
+        testYatzyCombination(15, () -> yatzy1.chance(), 2, 3, 4, 5, 1);
+        testYatzyCombination(16, () -> yatzy1.chance(), 3, 3, 4, 5, 1);
     }
 
     @Test
     void testYatzy() {
-        yatzy1.setDices(new Dices(4, 4, 4, 4, 4));
-        assertEquals(50, yatzy1.yatzy());
-        yatzy1.setDices(new Dices(6, 6, 6, 6, 6));
-        assertEquals(50, yatzy1.yatzy());
-        yatzy1.setDices(new Dices(6, 6, 6, 6, 3));
-        assertEquals(0, yatzy1.yatzy());
+        testYatzyCombination(50, () -> yatzy1.yatzy(), 4, 4, 4, 4, 4);
+        testYatzyCombination(50, () -> yatzy1.yatzy(), 6, 6, 6, 6, 6);
+        testYatzyCombination(0, () -> yatzy1.yatzy(), 6, 6, 6, 6, 3);
     }
 
     @Test
     void testOnes() {
-        yatzy1.setDices(new Dices(1, 2, 3, 4, 5));
-        assertEquals(1, yatzy1.ones());
-        yatzy1.setDices(new Dices(1, 2, 1, 4, 5));
-        assertEquals(2, yatzy1.ones());
-        yatzy1.setDices(new Dices(6, 2, 2, 4, 5));
-        assertEquals(0, yatzy1.ones());
-        yatzy1.setDices(new Dices(1, 2, 1, 1, 1));
-        assertEquals(4, yatzy1.ones());
+        testYatzyCombination(1, () -> yatzy1.ones(), 1, 2, 3, 4, 5);
+        testYatzyCombination(2, () -> yatzy1.ones(), 1, 2, 1, 4, 5);
+        testYatzyCombination(0, () -> yatzy1.ones(), 6, 2, 2, 4, 5);
+        testYatzyCombination(4, () -> yatzy1.ones(), 1, 2, 1, 1, 1);
     }
 
     @Test
     void testTwos() {
-        yatzy1.setDices(new Dices(1, 2, 3, 2, 6));
-        assertEquals(4, yatzy1.twos());
-        yatzy1.setDices(new Dices(2, 2, 2, 2, 2));
-        assertEquals(10,yatzy1.twos());
+        testYatzyCombination(4, () -> yatzy1.twos(), 1, 2, 3, 2, 6);
+        testYatzyCombination(10, () -> yatzy1.twos(), 2, 2, 2, 2, 2);
     }
 
     @Test
     void testThrees() {
-        yatzy1.setDices(new Dices(1, 2, 3, 2, 3));
-        assertEquals(6, yatzy1.threes());
-        yatzy1.setDices(new Dices(2, 3, 3, 3, 3));
-        assertEquals(12, yatzy1.threes());
+        testYatzyCombination(6, () -> yatzy1.threes(), 1, 2, 3, 2, 3);
+        testYatzyCombination(12, () -> yatzy1.threes(), 2, 3, 3, 3, 3);
     }
 
     @Test
     void testFours() {
-        yatzy1.setDices(new Dices(4, 4, 4, 5, 5));
-        assertEquals(12, yatzy1.fours());
-        yatzy1.setDices(new Dices(4, 4, 5, 5, 5));
-        assertEquals(8, yatzy1.fours());
-        yatzy1.setDices(new Dices(4, 5, 5, 5, 5));
-        assertEquals(4, yatzy1.fours());
+        testYatzyCombination(12, () -> yatzy1.fours(), 4, 4, 4, 5, 5);
+        testYatzyCombination(8, () -> yatzy1.fours(), 4, 4, 5, 5, 5);
+        testYatzyCombination(4, () -> yatzy1.fours(), 4, 5, 5, 5, 5);
     }
 
     @Test
     void testFives() {
-        yatzy1.setDices(new Dices(4, 4, 4, 5, 5));
-        assertEquals(10, yatzy1.fives());
-        yatzy1.setDices(new Dices(4, 4, 5, 5, 5));
-        assertEquals(15, yatzy1.fives());
-        yatzy1.setDices(new Dices(4, 5, 5, 5, 5));
-        assertEquals(20, yatzy1.fives());
+        testYatzyCombination(10, () -> yatzy1.fives(), 4, 4, 4, 5, 5);
+        testYatzyCombination(15, () -> yatzy1.fives(), 4, 4, 5, 5, 5);
+        testYatzyCombination(20, () -> yatzy1.fives(), 4, 5, 5, 5, 5);
     }
 
     @Test
     void testSixes() {
-        yatzy1.setDices(new Dices(4, 4, 4, 5, 5));
-        assertEquals(0, yatzy1.sixes());
-        yatzy1.setDices(new Dices(4, 4, 6, 5, 5));
-        assertEquals(6, yatzy1.sixes());
-        yatzy1.setDices(new Dices(6, 5, 6, 6, 5));
-        assertEquals(18, yatzy1.sixes());
+        testYatzyCombination(0, () -> yatzy1.sixes(), 4, 4, 4, 5, 5);
+        testYatzyCombination(6, () -> yatzy1.sixes(), 4, 4, 6, 5, 5);
+        testYatzyCombination(18, () -> yatzy1.sixes(), 6, 5, 6, 6, 5);
     }
 
     @Test
     void testOnePair() {
-        yatzy1.setDices(new Dices(3, 4, 3, 5, 6));
-        assertEquals(6, yatzy1.scorePair());
-        yatzy1.setDices(new Dices(5, 3, 3, 3, 5));
-        assertEquals(10, yatzy1.scorePair());
-        yatzy1.setDices(new Dices(5, 3, 6, 6, 5));
-        assertEquals(12, yatzy1.scorePair());
+        testYatzyCombination(6, () -> yatzy1.scorePair(), 3, 4, 3, 5, 6);
+        testYatzyCombination(10, () -> yatzy1.scorePair(), 5, 3, 3, 3, 5);
+        testYatzyCombination(12, () -> yatzy1.scorePair(), 5, 3, 6, 6, 5);
     }
 
     @Test
     void testTwoPairs() {
-        yatzy1.setDices(new Dices(3, 3, 5, 4, 5));
-        assertEquals(16, yatzy1.twoPair());
-        yatzy1.setDices(new Dices(3, 3, 5, 5, 5));
-        assertEquals(16, yatzy1.twoPair());
+        testYatzyCombination(16, () -> yatzy1.twoPair(), 3, 3, 5, 4, 5);
+        testYatzyCombination(16, () -> yatzy1.twoPair(), 3, 3, 5, 5, 5);
     }
 
     @Test
     void testThreeOfAKind() {
-        yatzy1.setDices(new Dices(3, 3, 3, 4, 5));
-        assertEquals(9,yatzy1.threeOfAKind());
-        yatzy1.setDices(new Dices(5, 3, 5, 4, 5));
-        assertEquals(15, yatzy1.threeOfAKind());
-        yatzy1.setDices(new Dices(3, 3, 3, 3, 5));
-        assertEquals(9, yatzy1.threeOfAKind());
+        testYatzyCombination(9, () -> yatzy1.threeOfAKind(), 3, 3, 3, 4, 5);
+        testYatzyCombination(15, () -> yatzy1.threeOfAKind(), 5, 3, 5, 4, 5);
+        testYatzyCombination(9, () -> yatzy1.threeOfAKind(), 3, 3, 3, 3, 5);
     }
 
     @Test
     void testFourOfAKind() {
-        yatzy1.setDices(new Dices(3, 3, 3, 3, 5));
-        assertEquals(12, yatzy1.fourOfAKind());
-        yatzy1.setDices(new Dices(5, 5, 5, 4, 5));
-        assertEquals(20, yatzy1.fourOfAKind());
-        yatzy1.setDices(new Dices(3, 3, 3, 3, 3));
-        assertEquals(12, yatzy1.fourOfAKind());
+        testYatzyCombination(12, () -> yatzy1.fourOfAKind(), 3, 3, 3, 3, 5);
+        testYatzyCombination(20, () -> yatzy1.fourOfAKind(), 5, 5, 5, 4, 5);
+        testYatzyCombination(12, () -> yatzy1.fourOfAKind(), 3, 3, 3, 3, 3);
     }
 
     @Test
     void smallStraight() {
-        yatzy1.setDices(new Dices(1, 2, 3, 4, 5));
-        assertEquals(15, yatzy1.smallStraight());
-        yatzy1.setDices(new Dices(2, 3, 4, 5, 1));
-        assertEquals(15, yatzy1.smallStraight());
-        yatzy1.setDices(new Dices(1, 2, 2, 4, 5));
-        assertEquals(0, yatzy1.smallStraight());
+        testYatzyCombination(15, () -> yatzy1.smallStraight(), 1, 2, 3, 4, 5);
+        testYatzyCombination(15, () -> yatzy1.smallStraight(), 2, 3, 4, 5, 1);
+        testYatzyCombination(0, () -> yatzy1.smallStraight(), 1, 2, 2, 4, 5);
     }
 
     @Test
     void largeStraight() {
-        yatzy1.setDices(new Dices(6, 2, 3, 4, 5));
-        assertEquals(20, yatzy1.largeStraight());
-        yatzy1.setDices(new Dices(2, 3, 4, 5, 6));
-        assertEquals(20, yatzy1.largeStraight());
-        yatzy1.setDices(new Dices(1, 2, 2, 4, 5));
-        assertEquals(0, yatzy1.largeStraight());
+        testYatzyCombination(20, () -> yatzy1.largeStraight(), 6, 2, 3, 4, 5);
+        testYatzyCombination(20, () -> yatzy1.largeStraight(), 2, 3, 4, 5, 6);
+        testYatzyCombination(0, () -> yatzy1.largeStraight(), 1, 2, 2, 4, 5);
     }
 
     @Test
     void fullHouse() {
-        yatzy1.setDices(new Dices(6, 2, 2, 2, 6));
-        assertEquals(18, yatzy1.fullHouse());
-        yatzy1.setDices(new Dices(2, 3, 4, 5, 6));
-        assertEquals(0, yatzy1.fullHouse());
+        testYatzyCombination(18, () -> yatzy1.fullHouse(), 6, 2, 2, 2, 6);
+        testYatzyCombination(0, () -> yatzy1.fullHouse(), 2, 3, 4, 5, 6);
     }
 }
