@@ -1,6 +1,11 @@
 package org.codingdojo.yatzy1;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Yatzy1 {
     private final int[] dices;
@@ -47,38 +52,32 @@ public class Yatzy1 {
         return this.sumOfSpecificValue(6);
     }
 
-    public static int scorePair(int d1, int d2, int d3, int d4, int d5) {
-        int[] counts = new int[6];
-        counts[d1 - 1]++;
-        counts[d2 - 1]++;
-        counts[d3 - 1]++;
-        counts[d4 - 1]++;
-        counts[d5 - 1]++;
-        int at;
-        for (at = 0; at != 6; at++)
-            if (counts[6 - at - 1] >= 2)
-                return (6 - at) * 2;
-        return 0;
+    private int scoreNumberOfPair(int numberOfPair){
+        Map<Integer, Long> counts = getCountOfEachDiceValue();
+        return getBestPairScores(counts)
+            .sorted(Comparator.reverseOrder())
+            .limit(numberOfPair)
+            .mapToInt(Integer::intValue).sum();
     }
 
-    public static int twoPair(int d1, int d2, int d3, int d4, int d5) {
-        int[] counts = new int[6];
-        counts[d1 - 1]++;
-        counts[d2 - 1]++;
-        counts[d3 - 1]++;
-        counts[d4 - 1]++;
-        counts[d5 - 1]++;
-        int n = 0;
-        int score = 0;
-        for (int i = 0; i < 6; i += 1)
-            if (counts[6 - i - 1] >= 2) {
-                n++;
-                score += (6 - i);
-            }
-        if (n == 2)
-            return score * 2;
-        else
-            return 0;
+    private static Stream<Integer> getBestPairScores(Map<Integer, Long> counts) {
+        return counts.entrySet().stream()
+            .filter(cardCount -> cardCount.getValue() >= 2)
+            .map(diceCount -> diceCount.getKey() * 2);
+    }
+
+    private Map<Integer, Long> getCountOfEachDiceValue() {
+        return Arrays.stream(this.dices)
+            .boxed()
+            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    }
+
+    public int scorePair() {
+        return scoreNumberOfPair(1);
+    }
+
+    public int twoPair() {
+        return this.scoreNumberOfPair(2);
     }
 
     public static int fourOfAKind(int d1, int d2, int d3, int d4, int d5) {

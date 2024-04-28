@@ -68,16 +68,16 @@ class Yatzy1Test {
     }
 
     @Test
-    void one_pair() {
-        assertEquals(6, Yatzy1.scorePair(3, 4, 3, 5, 6));
-        assertEquals(10, Yatzy1.scorePair(5, 3, 3, 3, 5));
-        assertEquals(12, Yatzy1.scorePair(5, 3, 6, 6, 5));
+    void testOnePair() {
+        assertEquals(6, new Yatzy1(new Dices(3, 4, 3, 5, 6)).scorePair());
+        assertEquals(10, new Yatzy1(new Dices(5, 3, 3, 3, 5)).scorePair());
+        assertEquals(12, new Yatzy1(new Dices(5, 3, 6, 6, 5)).scorePair());
     }
 
     @Test
-    void two_Pair() {
-        assertEquals(16, Yatzy1.twoPair(3, 3, 5, 4, 5));
-        assertEquals(16, Yatzy1.twoPair(3, 3, 5, 5, 5));
+    void testTwoPairs() {
+        assertEquals(16, new Yatzy1(new Dices(3, 3, 5, 4, 5)).twoPair());
+        assertEquals(16, new Yatzy1(new Dices(3, 3, 5, 5, 5)).twoPair());
     }
 
     @Test
