@@ -1,7 +1,5 @@
-package org.codingdojo;
+package org.codingdojo.yatzy1;
 
-import org.codingdojo.yatzy1.Dices;
-import org.codingdojo.yatzy1.Yatzy1;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.Supplier;
